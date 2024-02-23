@@ -80,53 +80,104 @@ const CRUD = () => {
         }}
       >
         <Box
-          sx={{ bgcolor: "#f2f2f2", p: 3, width: "80%", textAlign: "center" }}
+          component="form"
+          sx={{
+            bgcolor: "#f2f2f2",
+            p: 3,
+            width: "80%",
+            textAlign: "center",
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
         >
           <Typography variant="h2" gutterBottom>
             Employee Management
           </Typography>
           <form>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "16px",
-              }}
-            >
+            <div>
               <TextField
-                label="Name"
-                variant="outlined"
-                value={newEmployee.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                style={{ marginRight: "8px" }}
-              />
-              <TextField
-                label="Employee Number"
+                label="รหัสลูกค้า"
                 variant="outlined"
                 value={newEmployee.employeeNumber}
                 onChange={(e) =>
                   handleInputChange("employeeNumber", e.target.value)
                 }
                 style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
               />
-              {editingIndex === null ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={addEmployee}
-                >
-                  Save
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={updateEmployee}
-                >
-                  Update
-                </Button>
-              )}
+              <TextField
+                label="ชื่อลูกค้า"
+                variant="outlined"
+                value={newEmployee.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
+              />
             </div>
+            <div>
+              <TextField
+                label="ที่อยู่ลูกค้า"
+                variant="outlined"
+                // ....
+                style={{ marginRight: "8px" }}
+                multiline
+                rows={2}
+                maxRows={6}
+              />
+            </div>
+            <div>
+              <TextField
+                label="รหัสไปรษณีย์"
+                variant="outlined"
+                // ....
+                style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
+              />
+              <TextField
+                label="เบอร์โทรศัพท์"
+                variant="outlined"
+                // ....
+                style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
+              />
+            </div>
+            <div>
+              <TextField
+                label="เบอร์แฟกซ์"
+                variant="outlined"
+                // ....
+                style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
+              />
+              <TextField
+                label="อีเมล"
+                variant="outlined"
+                // ....
+                style={{ marginRight: "8px" }}
+                multiline
+                maxRows={1}
+              />
+            </div>
+            {editingIndex === null ? (
+              <Button variant="contained" color="primary" onClick={addEmployee}>
+                Save
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={updateEmployee}
+              >
+                Update
+              </Button>
+            )}
+
             {error && (
               <Typography variant="body2" color="error">
                 {error}
@@ -136,16 +187,16 @@ const CRUD = () => {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
                 <th>Employee Number</th>
+                <th>Name</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {employees.map((employee, index) => (
                 <tr key={index}>
-                  <td>{employee.name}</td>
                   <td>{employee.employeeNumber}</td>
+                  <td>{employee.name}</td>
                   <td>
                     <Button
                       variant="outlined"
