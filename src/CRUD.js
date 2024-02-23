@@ -9,8 +9,13 @@ import Button from "@mui/material/Button";
 const CRUD = () => {
   const [customer, setCustomer] = useState([]);
   const [newCustomer, setNewCustomer] = useState({
-    name: "",
     customerID: "",
+    name: "",
+    address: "",
+    zipCode: "",
+    phone: "",
+    fax: "",
+    email: "",
   });
   const [editingIndex, setEditingIndex] = useState(null);
   const [error, setError] = useState(null);
@@ -25,15 +30,59 @@ const CRUD = () => {
 
   const addCustomer = () => {
     if (
-      newCustomer.name &&
       newCustomer.customerID &&
+      newCustomer.name &&
+      newCustomer.address &&
+      newCustomer.zipCode &&
+      newCustomer.phone &&
+      newCustomer.fax &&
+      newCustomer.email &&
       isCustomerIDUnique(newCustomer.customerID)
     ) {
       setCustomer([...customer, newCustomer]);
-      setNewCustomer({ name: "", customerID: "" });
+      setNewCustomer({
+        customerID: "",
+        name: "",
+        address: "",
+        zipCode: "",
+        phone: "",
+        fax: "",
+        email: "",
+      });
       setError(null);
     } else {
-      setError("Customer ID must be unique.");
+      setError("Please enter all required information OR Customer ID must be unique.");
+    }
+  };
+
+  const updateCustomer = () => {
+    if (
+      newCustomer.customerID &&
+      newCustomer.name &&
+      newCustomer.address &&
+      newCustomer.zipCode &&
+      newCustomer.phone &&
+      newCustomer.fax &&
+      newCustomer.email &&
+      editingIndex !== null &&
+      isCustomerIDUniqueForUpdate(newCustomer.customerID)
+    ) {
+      const updatedCustomers = [...customer];
+      updatedCustomers[editingIndex] = newCustomer;
+      setCustomer(updatedCustomers);
+      setNewCustomer({
+        customerID: "",
+        name: "",
+        address: "",
+        zipCode: "",
+        phone: "",
+        fax: "",
+        email: "",
+      });
+      setEditingIndex(null);
+      setError(null);
+    } else {
+      setError("Please enter all required information OR Customer ID must be unique.");
     }
   };
 
@@ -42,27 +91,13 @@ const CRUD = () => {
     setNewCustomer(customer[index]);
   };
 
-  const updateCustomer = () => {
-    if (
-      newCustomer.name &&
-      newCustomer.customerID &&
-      editingIndex !== null &&
-      isCustomerIDUniqueForUpdate(newCustomer.customerID)
-    ) {
-      const updatedCustomers = [...customer];
-      updatedCustomers[editingIndex] = newCustomer;
-      setCustomer(updatedCustomers);
-      setNewCustomer({ name: "", customerID: "" });
-      setEditingIndex(null);
-      setError(null);
-    } else {
-      setError("Customer ID must be unique.");
-    }
-  };
-  
   const isCustomerIDUniqueForUpdate = (customerID) => {
-    const otherCustomers = customer.filter((_, index) => index !== editingIndex);
-    return !otherCustomers.some((customer) => customer.customerID === customerID);
+    const otherCustomers = customer.filter(
+      (_, index) => index !== editingIndex
+    );
+    return !otherCustomers.some(
+      (customer) => customer.customerID === customerID
+    );
   };
 
   const deleteCustomer = (index) => {
@@ -125,7 +160,8 @@ const CRUD = () => {
               <TextField
                 label="Customer Address"
                 variant="outlined"
-                // ....
+                value={newCustomer.address}
+                onChange={(e) => handleInputChange("address", e.target.value)}
                 style={{ marginRight: "8px", width: "82%" }}
                 multiline
                 rows={2}
@@ -136,7 +172,8 @@ const CRUD = () => {
               <TextField
                 label="Zip Code"
                 variant="outlined"
-                // ....
+                value={newCustomer.zipCode}
+                onChange={(e) => handleInputChange("zipCode", e.target.value)}
                 style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
@@ -144,7 +181,8 @@ const CRUD = () => {
               <TextField
                 label="Phone Number"
                 variant="outlined"
-                // ....
+                value={newCustomer.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
                 style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
@@ -154,7 +192,8 @@ const CRUD = () => {
               <TextField
                 label="Fax Number"
                 variant="outlined"
-                // ....
+                value={newCustomer.fax}
+                onChange={(e) => handleInputChange("fax", e.target.value)}
                 style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
@@ -162,7 +201,8 @@ const CRUD = () => {
               <TextField
                 label="Email"
                 variant="outlined"
-                // ....
+                value={newCustomer.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
@@ -210,18 +250,48 @@ const CRUD = () => {
                     Name
                   </th>
                   <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    Actions
+                    Address
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Zip Code
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Phone
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Fax
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Email
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {customer.map((customer, index) => (
+                {customer.map((currentCustomer, index) => (
                   <tr key={index}>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      {customer.customerID}
+                      {currentCustomer.customerID}
                     </td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      {customer.name}
+                      {currentCustomer.name}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {currentCustomer.address}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {currentCustomer.zipCode}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {currentCustomer.phone}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {currentCustomer.fax}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {currentCustomer.email}
                     </td>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                       <Button
