@@ -7,66 +7,70 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const CRUD = () => {
-  const [employees, setEmployees] = useState([]);
-  const [newEmployee, setNewEmployee] = useState({
+  const [customer, setCustomer] = useState([]);
+  const [newCustomer, setNewCustomer] = useState({
     name: "",
-    employeeNumber: "",
+    customerID: "",
   });
   const [editingIndex, setEditingIndex] = useState(null);
   const [error, setError] = useState(null);
 
   const handleInputChange = (key, value) => {
-    setNewEmployee((prev) => ({ ...prev, [key]: value }));
+    setNewCustomer((prev) => ({ ...prev, [key]: value }));
   };
 
-  const isEmployeeNumberUnique = (employeeNumber) => {
-    return !employees.some(
-      (employee) => employee.employeeNumber === employeeNumber
-    );
+  const isCustomerIDUnique = (customerID) => {
+    return !customer.some((customer) => customer.customerID === customerID);
   };
 
-  const addEmployee = () => {
+  const addCustomer = () => {
     if (
-      newEmployee.name &&
-      newEmployee.employeeNumber &&
-      isEmployeeNumberUnique(newEmployee.employeeNumber)
+      newCustomer.name &&
+      newCustomer.customerID &&
+      isCustomerIDUnique(newCustomer.customerID)
     ) {
-      setEmployees([...employees, newEmployee]);
-      setNewEmployee({ name: "", employeeNumber: "" });
+      setCustomer([...customer, newCustomer]);
+      setNewCustomer({ name: "", customerID: "" });
       setError(null);
     } else {
-      setError("Employee Number must be unique.");
+      setError("Customer ID must be unique.");
     }
   };
 
-  const editEmployee = (index) => {
+  const editCustomer = (index) => {
     setEditingIndex(index);
-    setNewEmployee(employees[index]);
+    setNewCustomer(customer[index]);
   };
 
-  const updateEmployee = () => {
+  const updateCustomer = () => {
     if (
-      newEmployee.name &&
-      newEmployee.employeeNumber &&
+      newCustomer.name &&
+      newCustomer.customerID &&
       editingIndex !== null &&
-      isEmployeeNumberUnique(newEmployee.employeeNumber)
+      isCustomerIDUniqueForUpdate(newCustomer.customerID)
     ) {
-      const updatedEmployees = [...employees];
-      updatedEmployees[editingIndex] = newEmployee;
-      setEmployees(updatedEmployees);
-      setNewEmployee({ name: "", employeeNumber: "" });
+      const updatedCustomers = [...customer];
+      updatedCustomers[editingIndex] = newCustomer;
+      setCustomer(updatedCustomers);
+      setNewCustomer({ name: "", customerID: "" });
       setEditingIndex(null);
       setError(null);
     } else {
-      setError("Employee Number must be unique.");
+      setError("Customer ID must be unique.");
     }
   };
+  
+  const isCustomerIDUniqueForUpdate = (customerID) => {
+    const otherCustomers = customer.filter((_, index) => index !== editingIndex);
+    return !otherCustomers.some((customer) => customer.customerID === customerID);
+  };
 
-  const deleteEmployee = (index) => {
-    const updatedEmployees = employees.filter((_, i) => i !== index);
-    setEmployees(updatedEmployees);
+  const deleteCustomer = (index) => {
+    const updatedCustomers = customer.filter((_, i) => i !== index);
+    setCustomer(updatedCustomers);
     setEditingIndex(null);
   };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -92,37 +96,37 @@ const CRUD = () => {
           autoComplete="off"
         >
           <Typography variant="h2" gutterBottom>
-            Employee Management
+            Customer Management
           </Typography>
           <form>
             <div>
               <TextField
-                label="รหัสลูกค้า"
+                label="Customer ID"
                 variant="outlined"
-                value={newEmployee.employeeNumber}
+                value={newCustomer.customerID}
                 onChange={(e) =>
-                  handleInputChange("employeeNumber", e.target.value)
+                  handleInputChange("customerID", e.target.value)
                 }
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
               <TextField
-                label="ชื่อลูกค้า"
+                label="Customer name"
                 variant="outlined"
-                value={newEmployee.name}
+                value={newCustomer.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
             </div>
             <div>
               <TextField
-                label="ที่อยู่ลูกค้า"
+                label="Customer Address"
                 variant="outlined"
                 // ....
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "82%" }}
                 multiline
                 rows={2}
                 maxRows={6}
@@ -130,94 +134,117 @@ const CRUD = () => {
             </div>
             <div>
               <TextField
-                label="รหัสไปรษณีย์"
+                label="Zip Code"
                 variant="outlined"
                 // ....
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
               <TextField
-                label="เบอร์โทรศัพท์"
+                label="Phone Number"
                 variant="outlined"
                 // ....
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
             </div>
             <div>
               <TextField
-                label="เบอร์แฟกซ์"
+                label="Fax Number"
                 variant="outlined"
                 // ....
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
               <TextField
-                label="อีเมล"
+                label="Email"
                 variant="outlined"
                 // ....
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", width: "40%" }}
                 multiline
                 maxRows={1}
               />
             </div>
             {editingIndex === null ? (
-              <Button variant="contained" color="primary" onClick={addEmployee}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={addCustomer}
+                style={{ marginTop: "16px", width: "120px" }}
+              >
                 Save
               </Button>
             ) : (
               <Button
                 variant="contained"
                 color="primary"
-                onClick={updateEmployee}
+                onClick={updateCustomer}
+                style={{ marginTop: "16px", width: "120px" }}
               >
                 Update
               </Button>
             )}
-
             {error && (
               <Typography variant="body2" color="error">
                 {error}
               </Typography>
             )}
           </form>
-          <table>
-            <thead>
-              <tr>
-                <th>Employee Number</th>
-                <th>Name</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map((employee, index) => (
-                <tr key={index}>
-                  <td>{employee.employeeNumber}</td>
-                  <td>{employee.name}</td>
-                  <td>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => editEmployee(index)}
-                      style={{ marginRight: "8px" }}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => deleteEmployee(index)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
+          <div style={{ marginTop: "16px" }}>
+            <table
+              style={{
+                borderCollapse: "collapse",
+                width: "100%",
+                border: "1px solid #ddd",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Customer ID
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Name
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {customer.map((customer, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {customer.customerID}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {customer.name}
+                    </td>
+                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => editCustomer(index)}
+                        style={{ marginRight: "8px" }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => deleteCustomer(index)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Box>
       </Container>
     </React.Fragment>
