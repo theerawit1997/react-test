@@ -49,12 +49,12 @@ const Grade = () => {
         <Box
           sx={{ bgcolor: "#f2f2f2", p: 3, width: "70%", textAlign: "center" }}
         >
-          <Typography variant="h2" gutterBottom>
-            คำนวนเกรด
+          <Typography variant="h3" gutterBottom>
+            Calculate grade
           </Typography>
           <form>
             <Typography variant="h6" gutterBottom>
-              ชื่อ-นามสกุล
+              First and last name
             </Typography>
             <TextField
               label="Name"
@@ -65,7 +65,7 @@ const Grade = () => {
               onChange={(e) => setName(e.target.value)}
             />
             <Typography variant="h6" gutterBottom>
-              รหัสนักศึกษา
+              Student ID
             </Typography>
             <TextField
               label="Student ID"
@@ -76,7 +76,7 @@ const Grade = () => {
               onChange={(e) => setStudentID(e.target.value)}
             />
             <Typography variant="h6" gutterBottom>
-              ระบุคะแนนของคุณ
+              Enter your score
             </Typography>
             <TextField
               label="Test Score"
@@ -99,16 +99,16 @@ const Grade = () => {
           {showResult && (
             <Box sx={{ p: 3 }}>
               <Typography variant="h6" gutterBottom>
-                ชื่อของคุณคือ : {Name}
+                your name is : {Name}
               </Typography>
               <Typography variant="h6" gutterBottom>
-                รหัสนักศึกษาคือ : {studentID}
+                Student ID is : {studentID}
               </Typography>
               <Typography variant="h6" gutterBottom>
-                คะแนนของคุณคือ : {testScore}
+                Your score is : {testScore}
               </Typography>
               <Typography variant="h6" gutterBottom>
-                เกรดของคุณคือ : {grade}
+                Your grade is : {grade}
               </Typography>
             </Box>
           )}

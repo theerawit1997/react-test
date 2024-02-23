@@ -60,7 +60,7 @@ const Calculator = () => {
         <Box
           sx={{ bgcolor: "#f2f2f2", p: 3, width: "50%", textAlign: "center" }}
         >
-          <Typography variant="h2" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             Calculator
           </Typography>
           <form>

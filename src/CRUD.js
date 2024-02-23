@@ -130,7 +130,7 @@ const CRUD = () => {
           noValidate
           autoComplete="off"
         >
-          <Typography variant="h2" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             Customer Management
           </Typography>
           <form>

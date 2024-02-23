@@ -9,12 +9,15 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg" sx={{ p: 2 }}>
-        <Box >
+        <Box>
           <Typography variant="h6" gutterBottom>
-            สวัสดีครับ ผมนายธีรวิทย์ ศรีน้อย
+            สวัสดีครับ ผมนายธีรวิทย์ ศรีน้อย เป็นผู้จัดทำโปรแจคนี่
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Hello my name is Theerawit Srinoi. I am the creator of this project. 
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
-            นี่คือการทำ test ของผมครับ XD
+            https://github.com/theerawit1997
           </Typography>
         </Box>
       </Container>
